@@ -28,8 +28,10 @@ class Post(models.Model):
 class Image(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="image")
-    user = models.ForeignKey(User, related_name="image")
-    group = models.ForeignKey(Group, related_name="image")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="image")
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, related_name="image")
     image = models.ImageField(upload_to=get_image_path, verbose_name="Image")
 
     def __str__(self):
