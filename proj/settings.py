@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'diary.app.diaryConfig',
     'gallery.app.galleryConfig',
     'settings.app.settingsConfig',
+    'user.app.galleryConfig',
+    'groups.app.settingsConfig',
 ]
 
 MIDDLEWARE = [
