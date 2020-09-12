@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DJANGO_DB_NAME', 'django-test'),
+        'USER': os.environ.get('DJANGO_DB_USER', 'django-test'),
+        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'd5n9p24jb99x68fh'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', 'db-mysql-sfo3-43357-do-user-8013657-0.b.db.ondigitalocean.com'),
+        'PORT': os.environ.get('DJANGO_DB_PORT', '25060'),
     }
 }
 

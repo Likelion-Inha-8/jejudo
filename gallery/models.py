@@ -8,8 +8,8 @@ from groups.models import Group
 
 def get_image_path(filename, instance):
     ext = filename.split('.')[-1]
-    filename = '/{}/{}/{}.{}'.format(instance.group.id,
-                                     instance.post.id, uuid.uuid4(), ext)
+    filename = '/images/{}/{}/{}.{}'.format(instance.group.id,
+                                            instance.post.id, uuid.uuid4(), ext)
     return filename
 
 
