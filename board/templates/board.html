@@ -1,0 +1,16 @@
+<h1>
+    게시판
+</h1>
+<br>
+<a href="{% url 'new' %}">글쓰기</a>
+
+{% for board in boards.all %}
+<div>
+    <h1><a href="{% url 'detail' board.id %}">{{board.title}}</a></h1>
+    <!-- <h1>{{board.title}}</h1> -->
+    <p>{{board.created_at}}</p>
+    <p>{{board.body}}</p>
+</div>
+
+
+{%endfor%}
