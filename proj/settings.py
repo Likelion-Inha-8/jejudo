@@ -125,8 +125,25 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = "user.User"
+
+AWS_ACCESS_KEY_ID = os.environ.get('S3_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('S3_SECRET_KEY')
+AWS_REGION = os.environ.get('S3_REGION', 'us-west-1')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET')
+AWS_S3_ENDPOINT_URL = os.environ.get(
+    'S3_ENDPOINT', 'https://s3.us-west-1.wasabisys.com')
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_ADDRESSING_STYLE = 'virtual'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_CUSTOM_DOMAIN = 'recyworld-akamai.scdn.pw'
+
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024000000
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024000000
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = 'https://recyworld-media-prod.s3.us-west-1.wasabisys.com/'
