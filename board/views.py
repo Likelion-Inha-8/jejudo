@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import Board, Comment
+from django.core.paginator import Paginator
+from django.views.generic import ListView
+
 # Create your views here.
 def board(request):
     boards = Board.objects
@@ -51,6 +54,12 @@ def newreply(request):
     else:
         return redirect('home') # 홈으로
 
+def comment_delete(request, post_id, comment_id):
+    post = get_object_or_404(Board, pk = post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete()
+    return redirect('detail', str(comment.board.id))
+# https://code1018.tistory.com/249?category=987693
 # def comment_new(requset, pk):
 #     print(request.method)
 #     if request.method == 'POST':
@@ -59,3 +68,12 @@ def newreply(request):
 #         board.body = request.POST['body']
 #         board.save()
 
+
+
+def board_list(request):
+    # boards = Board.objects
+    all_boards = Board.objects.all().order_by('-id')
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_boards, 6)
+    boards = paginator.get_page(page)
+    return render(request, 'board_list.html', {'boards':boards})

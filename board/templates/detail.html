@@ -21,5 +21,9 @@
         <span>
             {{comment.comment_user}}
         </span> : {{ comment.comment_body }}
-    </p>
+        <a href="{% url 'comment_delete' board.id comment.id %}">삭제</a>
+    </p> 
+    
+
 {% endfor %}
+

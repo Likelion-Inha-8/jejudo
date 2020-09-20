@@ -1,4 +1,6 @@
 from django.db import models
+from user.models import User
+from proj import settings
 
 # Create your models here.
 class Board(models.Model):
@@ -7,6 +9,8 @@ class Board(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     body = models.TextField()
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, related_name="post"), 
+    # writer = models.ForeignKey('user.User', on_delete = models.CASCADE)
 
     def __str__(self): 
         return self.title
