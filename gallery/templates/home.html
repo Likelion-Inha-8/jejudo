@@ -1,0 +1,10 @@
+{% for post in posts.all%}
+<div>
+    {% for photo in post.image.all%}
+    <img src="{{photo.image.url}}" width="300" height="300"><br>
+    {% endfor %}
+
+    <h1>{{post.title}}</h1>
+    <p> {{post.content}}</p>
+</div>
+{%endfor%}
