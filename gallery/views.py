@@ -38,7 +38,6 @@ def edit(request):
 def proc(request):
     if(request.method == 'POST'):
         if (request.POST['proc'] == 'new'):
-            print(os.environ.get('S3_SECRET_KEY'))
             post = Post()
             post.title = request.POST['title']
             post.content = request.POST['content']
