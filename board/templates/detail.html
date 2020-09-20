@@ -1,4 +1,5 @@
 <h1>제목 : {{board.title}}</h1>
+<p>작성자 : {{board.writer}}</p>
 <p>작성 시간 : {{board.created_at}}</p>
 <p>내용 : {{board.body}}</p>
 
@@ -10,9 +11,9 @@
 <form method="POST" action="{% url 'newreply' %}">
     {% csrf_token %}
     <input type="hidden" value="{{board.id}}" name="board">
-    댓글 작성 :<br>
-    UserID: <input type="text" name="comment_user"></input><br>
-    내용: <input type="text" name="comment_body"></input>
+    <h3>댓글<br></h3>
+    <!-- /UserID: <input type="text" name="comment_user"></input><br> -->
+    <input type="text" name="comment_body"></input>
     <button type="submit" class="btn btn-secondary">작성</button>
 </form>
  
@@ -20,10 +21,12 @@
     <p>
         <span>
             {{comment.comment_user}}
-        </span> : {{ comment.comment_body }}
+        </span> : {{ comment.comment_body }}  ({{comment.created_at}})
         <a href="{% url 'comment_delete' board.id comment.id %}">삭제</a>
     </p> 
     
 
 {% endfor %}
 
+
+<!--삭제 및 댓글 수정 기능 추가, 사용자 인증단계.. -->

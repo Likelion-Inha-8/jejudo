@@ -6,10 +6,11 @@ from proj import settings
 class Board(models.Model):
     objects = models.Manager()
     title = models.CharField(max_length=200)
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, related_name="write")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     body = models.TextField()
-    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, related_name="post"), 
+    
     # writer = models.ForeignKey('user.User', on_delete = models.CASCADE)
 
     def __str__(self): 
@@ -19,7 +20,7 @@ class Board(models.Model):
 class Comment(models.Model):
     objects = models.Manager()
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='comments')
-    comment_user = models.CharField(max_length=20)
+    comment_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, related_name="comment_write")
     comment_body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
