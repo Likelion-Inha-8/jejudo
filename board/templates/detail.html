@@ -8,7 +8,9 @@
 <a href="{% url 'delete' board.id %}">삭제</a>
 
 <hr>
-<form method="POST" action="{% url 'newreply' %}">
+
+    <form method="POST" action="{% url 'newreply' board.id %}">
+
     {% csrf_token %}
     <input type="hidden" value="{{board.id}}" name="board">
     <h3>댓글<br></h3>

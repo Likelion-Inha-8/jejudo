@@ -3,7 +3,20 @@
     게시판
 </h1>
 <br>
-<a href="{% url 'new' %}">글쓰기</a>
+<form action="{% url 'create' %}" method="post">
+    {% csrf_token %}
+    <div>
+      <!-- <label for="title">제목</label><br> -->
+      <input type="text" name="title" id="title" placeholder="글제목"><input type="submit" value="글쓰기">
+    </div>
+    <div>
+        <!-- <label for="content">내용</label><br> -->
+      <textarea name="body" id="body" cols="30" rows="10" placeholder="내용"></textarea>
+    </div>
+    <br>
+    
+</form>
+<!-- <a href="{% url 'new' %}">글쓰기</a> -->
 
 {% for board in boards.all %}
 <div>

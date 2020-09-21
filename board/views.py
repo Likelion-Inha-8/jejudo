@@ -41,18 +41,23 @@ def delete(request, post_id):
     return redirect('board')
 
 
-def newreply(request):
+def newreply(request, post_id):
     if(request.method == 'POST'):
         comment = Comment()
         comment.comment_body = request.POST['comment_body']
-        comment.board = Board.objects.get(pk=request.POST['board']) # id로 객체 가져오기        
-        comment.comment_user = request.POST['comment_user']
+        # comment.board = Board.objects.get(pk=request.POST['board']) # id로 객체 가져오기      
+        comment.board = get_object_or_404(Board, pk=post_id)
+        # comment.comment_user = request.POST['comment_user']
+
         # comment.comment_user = request.user.username
         comment.save()
+        # return redirect('detail', str(comment.board.id))
         return redirect('detail', str(comment.board.id))
-        # return redirect('/blog/'+ str(comment.blog.id))/
+
+        
+        ## return redirect('/blog/'+ str(comment.blog.id))/
     else:
-        return redirect('home') # 홈으로
+        return redirect('board') # 홈으로
 
 def comment_delete(request, post_id, comment_id):
     post = get_object_or_404(Board, pk = post_id)
