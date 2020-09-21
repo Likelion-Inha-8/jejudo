@@ -38,12 +38,14 @@ def detail(request, post_id):
 #     return render(request, 'edit.html', {'board': board})
 
 def edit(request, post_id):
-    #f(request.method == 'POST'):/
+    # f(request.method == 'POST'):/
     board = Board.objects.get(id=post_id)
-    if(board.writer!=request.user):
-        return render(request, 'edit.html', {'board': board})
-    else:
-        return render(request,'message.html', {'message':'Save complete'})
+    try:
+        if(board.writer == request.user):
+            return render(request, 'edit.html', {'board': board})
+        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.'})
+    except Board.writer.RelatedObjectDoesNotExist:
+        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.'})
         
         # messages.info(request, 'Your password has been changed successfully!')
         
