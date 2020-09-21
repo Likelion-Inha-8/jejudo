@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'board.apps.BoardConfig',
-    'diary.apps.DiaryConfig',
     'gallery.apps.GalleryConfig',
     'settings.apps.SettingsConfig',
     'user.apps.UserConfig',
     'groups.apps.GroupsConfig',
+    'calendarapp.apps.CalendarappConfig',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +147,4 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 1024000000
 
 STATIC_URL = '/static/'
 MEDIA_URL = 'https://recyworld-media-prod.s3.us-west-1.wasabisys.com/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
