@@ -18,7 +18,7 @@ class Post(models.Model):
         return self.title
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="post")
+        User, on_delete=models.CASCADE, related_name="post")
 #    group = models.ForeignKey(
 #        Group, on_delete=models.CASCADE, related_name="post")
     title = models.CharField(max_length=200)
@@ -29,7 +29,7 @@ class Image(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="image")
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="image")
+        User, on_delete=models.CASCADE, related_name="image")
 #    group = models.ForeignKey(
 #        Group, on_delete=models.CASCADE, related_name="image")
     image = models.ImageField(upload_to=get_image_path, verbose_name="Image")

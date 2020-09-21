@@ -1,3 +1,4 @@
+<a href="{% url 'new' %}">글쓰기</a>
 {% for post in posts.all%}
 <div>
     {% for photo in post.image.all%}
@@ -6,5 +7,6 @@
 
     <h1>{{post.title}}</h1>
     <p> {{post.content}}</p>
+    <p>{{post.user.username}}</p>
 </div>
 {%endfor%}
