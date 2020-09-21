@@ -18,7 +18,7 @@
 </form>
 <!-- <a href="{% url 'new' %}">글쓰기</a> -->
 
-{% for board in boards.all %}
+{% for board in boards.all%}
 <div>
     <h1><a href="{% url 'detail' board.id %}">{{board.title}}</a></h1>
     <!-- <h1>{{board.title}}</h1> -->

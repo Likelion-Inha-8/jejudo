@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Board, Comment
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+from django.contrib import messages
 
 # Create your views here.
 
 
 def board(request):
-    boards = Board.objects
+    # boards = Board.objects
+    boards = Board.objects.order_by('-created_at')
     return render(request, 'board.html', {'boards': boards})
 
 
@@ -20,6 +22,7 @@ def create(request):
     if(request.method == 'POST'):
         post = Board()
         post.title = request.POST['title']
+        post.writer = request.user
         post.body = request.POST['body']
         post.save()
     return redirect('board')
@@ -29,11 +32,22 @@ def detail(request, post_id):
     board = get_object_or_404(Board, pk=post_id)
     return render(request, 'detail.html', {'board': board})
 
+# 원본
+# def edit(request, post_id):
+#     board = get_object_or_404(Board, pk=post_id)
+#     return render(request, 'edit.html', {'board': board})
 
 def edit(request, post_id):
-    board = get_object_or_404(Board, pk=post_id)
-    return render(request, 'edit.html', {'board': board})
-
+    #f(request.method == 'POST'):/
+    board = Board.objects.get(id=post_id)
+    if(board.writer!=request.user):
+        return render(request, 'edit.html', {'board': board})
+    else:
+        return render(request,'message.html', {'message':'Save complete'})
+        
+        # messages.info(request, 'Your password has been changed successfully!')
+        
+        #return render(request, 'detail.html', {'board': board})
 
 def update(request, post_id):
     board = get_object_or_404(Board, pk=post_id)
