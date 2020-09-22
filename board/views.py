@@ -8,9 +8,18 @@ from django.contrib import messages
 
 
 def board(request):
-    boards = Board.objects.order_by('-created_at')
+    # boards = Board.objects
+    all_boards = Board.objects.all().order_by('-id')
+    page = int(request.GET.get('p', 1))
+    paginator = Paginator(all_boards, 10)
+    boards = paginator.get_page(page)
     return render(request, 'board.html', {'boards': boards})
 
+    
+def board_list(request):
+    boards = Board.objects.order_by('-created_at')
+    return render(request, 'board_list.html', {'boards': boards})
+    
 
 def new(request):
     return render(request, 'new.html')
@@ -89,11 +98,3 @@ def comment_delete(request, post_id, comment_id):
     except Board.writer.RelatedObjectDoesNotExist:
         return render(request, 'message.html', {'message': '삭제불가: 당신의 댓글이 아닙니다.', 'urltype':'detail_id', 'd_id':post.pk})
 
-    
-def board_list(request):
-    # boards = Board.objects
-    all_boards = Board.objects.all().order_by('-id')
-    page = int(request.GET.get('p', 1))
-    paginator = Paginator(all_boards, 6)
-    boards = paginator.get_page(page)
-    return render(request, 'board_list.html', {'boards': boards})
