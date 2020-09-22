@@ -1,4 +1,13 @@
+<meta charset="utf-8">
 <script>
     alert('{{ message }}');
-    window.location="{% url 'board' %}"
+    var urltype = '{{ urltype }}';
+    var d_id = '{{ d_id }}';
+    if (urltype == 'detail_id'){
+        window.location="{%  url 'detail' d_id %}";
+    }
+    // else if (urltype == 'board'){
+    //     window.location="{%  url 'board' %}";
+    // }
 </script>
+

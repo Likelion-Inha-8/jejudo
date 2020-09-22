@@ -8,7 +8,6 @@ from django.contrib import messages
 
 
 def board(request):
-    # boards = Board.objects
     boards = Board.objects.order_by('-created_at')
     return render(request, 'board.html', {'boards': boards})
 
@@ -32,24 +31,17 @@ def detail(request, post_id):
     board = get_object_or_404(Board, pk=post_id)
     return render(request, 'detail.html', {'board': board})
 
-# 원본
-# def edit(request, post_id):
-#     board = get_object_or_404(Board, pk=post_id)
-#     return render(request, 'edit.html', {'board': board})
 
 def edit(request, post_id):
-    # f(request.method == 'POST'):/
-    board = Board.objects.get(id=post_id)
+    # board = Board.objects.get(id=post_id)
+    board = get_object_or_404(Board, pk=post_id)
     try:
         if(board.writer == request.user):
             return render(request, 'edit.html', {'board': board})
-        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.'})
+        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.','urltype':'detail_id', 'd_id':board.pk})
     except Board.writer.RelatedObjectDoesNotExist:
-        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.'})
+        return render(request, 'message.html', {'message': '수정불가: 당신의 게시글이 아닙니다.','urltype':'detail_id', 'd_id':board.pk})
         
-        # messages.info(request, 'Your password has been changed successfully!')
-        
-        #return render(request, 'detail.html', {'board': board})
 
 def update(request, post_id):
     board = get_object_or_404(Board, pk=post_id)
@@ -60,10 +52,16 @@ def update(request, post_id):
 
 
 def delete(request, post_id):
-    delete = get_object_or_404(Board, pk=post_id)
-    delete.delete()
-    return redirect('board')
-
+    board = Board.objects.get(id=post_id)
+    try:
+        if(board.writer == request.user):
+            delete = get_object_or_404(Board, pk=post_id)
+            delete.delete()
+            return redirect('board')
+        return render(request, 'message.html', {'message': '삭제불가: 당신의 게시글이 아닙니다.', 'urltype':'detail_id', 'd_id':board.pk})
+    except Board.writer.RelatedObjectDoesNotExist:
+        return render(request, 'message.html', {'message': '삭제불가: 당신의 게시글이 아닙니다.', 'urltype':'detail_id', 'd_id':board.pk})
+    
 
 def newreply(request, post_id):
     if(request.method == 'POST'):
@@ -72,32 +70,26 @@ def newreply(request, post_id):
         # comment.board = Board.objects.get(pk=request.POST['board']) # id로 객체 가져오기
         comment.board = get_object_or_404(Board, pk=post_id)
         # comment.comment_user = request.POST['comment_user']
-
         comment.comment_user = request.user
         comment.save()
-        # return redirect('detail', str(comment.board.id))
         return redirect('detail', str(comment.board.id))
-
-        # return redirect('/blog/'+ str(comment.blog.id))/
     else:
         return redirect('board')  # 홈으로
 
 
 def comment_delete(request, post_id, comment_id):
+    # if(request.method == 'POST'):
     post = get_object_or_404(Board, pk=post_id)
     comment = get_object_or_404(Comment, pk=comment_id)
-    comment.delete()
-    return redirect('detail', str(comment.board.id))
-# https://code1018.tistory.com/249?category=987693
-# def comment_new(requset, pk):
-#     print(request.method)
-#     if request.method == 'POST':
-#         comment = Board()
-#         comment.title = request.POST['title']
-#         board.body = request.POST['body']
-#         board.save()
+    try:
+        if(comment.comment_user == request.user):
+            comment.delete()
+            return redirect('detail', str(comment.board.id))
+        return render(request, 'message.html', {'message': '삭제불가: 당신의 댓글이 아닙니다.', 'urltype':'detail_id', 'd_id':post.pk})
+    except Board.writer.RelatedObjectDoesNotExist:
+        return render(request, 'message.html', {'message': '삭제불가: 당신의 댓글이 아닙니다.', 'urltype':'detail_id', 'd_id':post.pk})
 
-
+    
 def board_list(request):
     # boards = Board.objects
     all_boards = Board.objects.all().order_by('-id')
