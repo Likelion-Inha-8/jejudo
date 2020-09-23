@@ -1,4 +1,4 @@
-<a href="{% url 'new' %}">글쓰기</a>
+<a href="{% url 'gallery:new' %}">글쓰기</a>
 {% for post in posts.all%}
 <div>
     {% for photo in post.image.all%}

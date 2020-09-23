@@ -33,7 +33,7 @@ def create(request):
         post.writer = request.user
         post.body = request.POST['body']
         post.save()
-    return redirect('board')
+    return redirect('board:board')
 
 
 def detail(request, post_id):
@@ -57,7 +57,7 @@ def update(request, post_id):
     board.title = request.POST['title']
     board.body = request.POST['body']
     board.save()
-    return redirect('detail', post_id)
+    return redirect('board:detail', post_id)
 
 
 def delete(request, post_id):
@@ -66,7 +66,7 @@ def delete(request, post_id):
         if(board.writer == request.user):
             delete = get_object_or_404(Board, pk=post_id)
             delete.delete()
-            return redirect('board')
+            return redirect('board:board')
         return render(request, 'message.html', {'message': '삭제불가: 당신의 게시글이 아닙니다.', 'urltype':'detail_id', 'd_id':board.pk})
     except Board.writer.RelatedObjectDoesNotExist:
         return render(request, 'message.html', {'message': '삭제불가: 당신의 게시글이 아닙니다.', 'urltype':'detail_id', 'd_id':board.pk})
@@ -81,9 +81,9 @@ def newreply(request, post_id):
         # comment.comment_user = request.POST['comment_user']
         comment.comment_user = request.user
         comment.save()
-        return redirect('detail', str(comment.board.id))
+        return redirect('board:detail', str(comment.board.id))
     else:
-        return redirect('board')  # 홈으로
+        return redirect('board:board')  # 홈으로
 
 
 def comment_delete(request, post_id, comment_id):
@@ -93,7 +93,7 @@ def comment_delete(request, post_id, comment_id):
     try:
         if(comment.comment_user == request.user):
             comment.delete()
-            return redirect('detail', str(comment.board.id))
+            return redirect('board:detail', str(comment.board.id))
         return render(request, 'message.html', {'message': '삭제불가: 당신의 댓글이 아닙니다.', 'urltype':'detail_id', 'd_id':post.pk})
     except Board.writer.RelatedObjectDoesNotExist:
         return render(request, 'message.html', {'message': '삭제불가: 당신의 댓글이 아닙니다.', 'urltype':'detail_id', 'd_id':post.pk})

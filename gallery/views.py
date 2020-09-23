@@ -49,7 +49,7 @@ def proc(request):
                 image.user = request.user
                 image.image = img
                 image.save()
-    return redirect('home')
+    return redirect('gallery:home')
 
 
 def home(request):

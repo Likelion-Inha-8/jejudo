@@ -1,4 +1,4 @@
-<form action="{% url 'proc' %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'gallery:proc' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="hidden" name="proc" value="new">
     <input type="file" name="imgs" multiple>

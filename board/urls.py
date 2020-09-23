@@ -1,5 +1,6 @@
 from django.urls import path
 from board import views
+app_name = "board"
 urlpatterns = [
     path('', views.board, name='board'),
     path('new/', views.new, name='new'),
